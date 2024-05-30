@@ -1,0 +1,48 @@
+Reinforcement Learning
+    Teaching a agent to behave in an enviorment by telling
+    it how it's doing
+
+
+Deep Q Learning
+
+It calculates the Q-function using neural networks, it predicts the expected cumulative reward 
+for taking specific actions in a given state
+
+    Repeats these steps
+        1. Chooses action (Choose between prediction or random move)
+                                A trade off between exploration & exploitation
+        2. Performs action
+        3. Measure Rewards
+        4. Update Q values & train model
+
+    Loss Function is the Bellman Equation (for step 4)
+    Bellman Equation.jpg
+    
+
+
+Rewards: Eat food = 10, game_over = -10
+
+Actions:
+    - Straight
+    - Right turn
+    - Left turn
+
+States
+    1. Danger Straight
+    2. Danger Right
+    3. Danger Left
+
+    4. Direction Left
+    5. Direction Right
+    6. Direction Down
+    7. Direction Up
+
+    8. Food Right
+    9. Food Left
+    10. Food Up
+    11. Food Down
+
+
+References
+https://itsudit.medium.com/the-q-in-q-learning-a-comprehensive-guide-to-this-powerful-reinforcement-learning-algorithm-896cbbedcd33 - Image
+https://www.youtube.com/watch?v=PJl4iabBEz0&list=RDCMUCbXgNpp0jedKWcQiULLbDTA&index=2
