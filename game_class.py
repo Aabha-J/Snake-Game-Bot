@@ -83,7 +83,7 @@ class SnakeGame:
                     self.direction = Direction.DOWN
 
         #2. move
-        self.move_snake(self.direction)
+        self._move(self.direction)
         self.snake.insert(0, self.snake_head)
         
 
@@ -125,7 +125,7 @@ class SnakeGame:
         self.window.blit(text, [0, 0])
         pygame.display.flip() #Update display
 
-    def move_snake(self, direction):
+    def _move(self, direction):
         x = self.snake_head.x
         y = self.snake_head.y
         if direction == Direction.RIGHT:
