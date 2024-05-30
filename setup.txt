@@ -1,0 +1,5 @@
+python -m venv game_venv
+
+pip install pygame
+
+run with: python snake_game.py
