@@ -36,9 +36,12 @@ class SnakeGame:
         #display
         self.window = pygame.display.set_mode((self.window_width, self.window_height))
         pygame.display.set_caption("Snake")
-
-        #Clock to control speed
+         #Clock to control speed
         self.clock = pygame.time.Clock()
+        self.reset()
+
+    def reset(self):
+
 
         # Initilize game state
         self.direction = Direction.RIGHT
@@ -49,11 +52,12 @@ class SnakeGame:
                       Point(self.snake_head.x - BLOCK_SIZE, self.snake_head.y),
                       Point(self.snake_head.x - 2*BLOCK_SIZE, self.snake_head.y)]
         self.score = 0
-        self.food = None
 
+        self.food = None
         self.place_food()
 
-        #game state
+        self.frame_count = 0
+
 
     def place_food(self):
         x = random.randint(0, (self.window_width - BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
