@@ -56,8 +56,6 @@ class SnakeGame:
         self.food = None
         self.place_food()
 
-        self.frame_count = 0
-
 
     def place_food(self):
         x = random.randint(0, (self.window_width - BLOCK_SIZE)//BLOCK_SIZE) * BLOCK_SIZE
