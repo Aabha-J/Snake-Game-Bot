@@ -1,8 +1,5 @@
 import pygame
-import random
-from enum import Enum
-from collections import namedtuple
-from game_class import SnakeGame, Direction, Point, WHITE, RED, BLUE1, BLUE2, BLACK, BLOCK_SIZE, SPEED
+from game_class import SnakeGame, Direction, Point, BLOCK_SIZE, SPEED
 import numpy as np
 
 class SnakeGame_forAI(SnakeGame):

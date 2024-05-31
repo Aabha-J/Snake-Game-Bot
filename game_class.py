@@ -139,7 +139,9 @@ class SnakeGame:
 
         self.snake_head = Point(x, y)
 
-    def is_collided(self):
+    def is_collided(self, pt=None):
+        if pt is None:
+            pt = self.snake_head
         if self.snake_head.x > self.window_width - BLOCK_SIZE or self.snake_head.x < 0 or self.snake_head.y > self.window_height - BLOCK_SIZE or self.snake_head.y < 0:
             return True
         if self.snake_head in self.snake[1:]:
