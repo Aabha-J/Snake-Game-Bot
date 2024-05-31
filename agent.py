@@ -13,6 +13,9 @@ LR = 0.001
 GAMES = 80
 RANDOM_MAX = 200
 
+HIDDEN = 250
+from model import Linear_QNet, QTrainer
+
 class Agent:
 
     def __init__(self):
@@ -20,10 +23,8 @@ class Agent:
         self.epsilon = 0 # controls exploration/randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) #Remove elements from left if u exceed size
-        self.model = None #TODO: add model
-        self.trainer = None #TODO: add trainer
-        # self.model = Linear_QNet(11, 256, 3)
-        # self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
+        self.model = Linear_QNet(11, HIDDEN, 3)
+        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
     def get_state(self, game):
         head = game.snake[0]
@@ -89,11 +90,11 @@ class Agent:
         else:
             states, actions, rewards, next_states, game_overs = zip(*self.memory)
 
-        #self.trainer.train_step(states, actions, rewards, next_states, game_overs)
+        self.trainer.train_step(states, actions, rewards, next_states, game_overs)
 
     def train_short_memory(self, state, action, reward, next_state, game_over):
-        #self.trainer.train_step(state, action, reward, next_state, game_over)
-        pass
+        self.trainer.train_step(state, action, reward, next_state, game_over)
+        
 
     def get_action(self, state):
         # random moves: tradeoff exploration / exploitation
@@ -102,11 +103,11 @@ class Agent:
         if random.randint(0, RANDOM_MAX) < self.epsilon:
             move = random.randint(0, 2)
             final_move[move] = 1
-        # else:
-        #     state0 = torch.tensor(state, dtype=torch.float)
-        #     prediction = self.model(state0)
-        #     move = torch.argmax(prediction).item()
-        #     final_move[move] = 1
+        else:
+            state0 = torch.tensor(state, dtype=torch.float)
+            prediction = self.model(state0) #foward is the prediction function
+            move = torch.argmax(prediction).item()
+            final_move[move] = 1
 
         return final_move
 
@@ -143,7 +144,7 @@ def train():
 
             if score > record:
                 record = score
-                # agent.model.save()
+                agent.model.save()
             print('Game Number: ', agent.n_games, 'Score: ', score, 'Record: ', record)
 
             # plot_scores
