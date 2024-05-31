@@ -7,6 +7,7 @@ class SnakeGame_forAI(SnakeGame):
         self.frame_count = 0
         super().__init__(w, h)  # Call the parent class constructor
         self.reset()
+        pygame.display.set_caption("Snake AI")
         
 
     def reset(self):

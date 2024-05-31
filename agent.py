@@ -10,6 +10,9 @@ MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
 LR = 0.001
 
+GAMES = 80
+RANDOM_MAX = 200
+
 class Agent:
 
     def __init__(self):
@@ -17,6 +20,8 @@ class Agent:
         self.epsilon = 0 # controls exploration/randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) #Remove elements from left if u exceed size
+        self.model = None #TODO: add model
+        self.trainer = None #TODO: add trainer
         # self.model = Linear_QNet(11, 256, 3)
         # self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
@@ -31,30 +36,79 @@ class Agent:
         dir_left = game.direction == Direction.LEFT
         dir_right = game.direction == Direction.RIGHT
         dir_up = game.direction == Direction.UP
-        dir_down = game.direction = Direction.DOWN
+        dir_down = game.direction == Direction.DOWN
 
-        state = [
+        state = np.array(
+            
+            [
 
             # Danger straight
             (dir_right and game.is_collided(point_right)) or
             (dir_left and game.is_collided(point_left)) or
             (dir_up and game.is_collided(point_up)) or
-            (dir_down and game.is_collided(point_down))
+            (dir_down and game.is_collided(point_down)), 
+
+            # Danger right
+            (dir_up and game.is_collided(point_right)) or
+            (dir_down and game.is_collided(point_left)) or
+            (dir_left and game.is_collided(point_up)) or
+            (dir_right and game.is_collided(point_down)),
+
+            # Danger left
+            (dir_up and game.is_collided(point_left)) or
+            (dir_down and game.is_collided(point_right)) or
+            (dir_right and game.is_collided(point_up)) or
+            (dir_left and game.is_collided(point_down)),
+
+            # Move direction
+            dir_left,
+            dir_right,
+            dir_up,
+            dir_down,
+
+            # Food location
+            game.food.x < game.snake_head.x,  # food left
+            game.food.x > game.snake_head.x,  # food right
+            game.food.y < game.snake_head.y,  # food up
+            game.food.y > game.snake_head.y #food down
 
 
-        ]
+        ], dtype=int)
+
+        return state
+
+
 
     def remember(self, state, action, reward, next_state, game_over):
-        pass
+        self.memory.append((state, action, reward, next_state, game_over))
 
     def train_long_memory(self):
-        pass
+        if len(self.memory) > BATCH_SIZE:
+            mini_sample = random.sample(self.memory, BATCH_SIZE)  # list of tuples
+            states, actions, rewards, next_states, game_overs = zip(*mini_sample)
+        else:
+            states, actions, rewards, next_states, game_overs = zip(*self.memory)
+
+        #self.trainer.train_step(states, actions, rewards, next_states, game_overs)
 
     def train_short_memory(self, state, action, reward, next_state, game_over):
+        #self.trainer.train_step(state, action, reward, next_state, game_over)
         pass
 
     def get_action(self, state):
-        pass
+        # random moves: tradeoff exploration / exploitation
+        self.epsilon = GAMES - self.n_games
+        final_move = [0,0,0]
+        if random.randint(0, RANDOM_MAX) < self.epsilon:
+            move = random.randint(0, 2)
+            final_move[move] = 1
+        # else:
+        #     state0 = torch.tensor(state, dtype=torch.float)
+        #     prediction = self.model(state0)
+        #     move = torch.argmax(prediction).item()
+        #     final_move[move] = 1
+
+        return final_move
 
 
 def train():
