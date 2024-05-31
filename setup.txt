@@ -2,4 +2,5 @@ python -m venv game_venv
 
 pip install pygame numpy torch
 
-run with: python snake_game.py
+To play: python snake_game.py
+To watch ai train and play: python agent.py
