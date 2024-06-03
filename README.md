@@ -4,7 +4,7 @@ The AI learns to navigate the grid, collect food, and avoid collisions with its 
 
 # Set Up :gear:
 1. Clone this repo
-2. Create a python virtual enviorment
+2. Create and activate a python virtual enviorment
 3. Install dependencies `pip install pytorch numpy pygame`
 
 ## Play the Game Yourself :video_game:
