@@ -1,5 +1,5 @@
 # Overview :snake:
-This project implements a classic Snake game using Pygame and trains an AI agent using Deep Q Learning to play the game. 
+This project implements a classic Snake game using Pygame and trains an AI agent with pytorch using Deep Q Learning to play the game. 
 The AI learns to navigate the grid, collect food, and avoid collisions with its own body and the walls.
 
 # Set Up :gear:
